@@ -1,0 +1,26 @@
+name: IssueOps Jira
+description: IssueOps related Jira Integration
+inputs:
+  JIRA_API_TOKEN:
+    description: Jira API Token
+    required: true
+  JIRA_API_HOST:
+    description: Jira API Host
+    required: true
+  JIRA_USER_EMAIL:
+    description: Jira User Email
+    required: true
+  JIRA_ISSUE_OPERATION:
+    description: Jira Issue Operation
+    required: true
+  JIRA_ISSUE:
+    description: Jira Issue
+    required: true
+  JIRA_JSON_INPUT:
+    description: Jira JSON Input
+    required: false
+
+
+runs:
+  using: 'node20'
+  main: index.js
