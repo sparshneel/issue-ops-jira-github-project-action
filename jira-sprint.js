@@ -20,7 +20,7 @@ exports.updateSprint = async (sprint, jiraClient) => {
                     }).catch(err => {
                         console.log(err)
                         return {
-                            message: "Sprint is started, there is an error moving issues to sprint",
+                            message: "Sprint is started, there is an error moving issues to the sprint",
                             sprintId: sprint.id,
                             issues: sprint.issues,
                             error: err.message
