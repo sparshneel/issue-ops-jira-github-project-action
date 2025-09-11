@@ -1,8 +1,6 @@
 Jira Integration GitHub Action
 This GitHub Action allows you to automatically transition a Jira issue based on events in your GitHub workflow, such as a pull request being merged. It is built to streamline your development process by keeping your Jira tickets in sync with your codebase.
 
-!
-
 Features
 Transition a Jira issue to a specified status.
 
@@ -54,17 +52,20 @@ on:
 
 jobs:
   update-jira-issue:
+    # Only run this job if the pull request was merged
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Update Jira Issue
-        uses: your-github-username/your-repo-name@v1 
+        uses: your-github-username/your-repo-name@v1 # Replace with your repo details
         with:
           jira-url: ${{ secrets.JIRA_URL }}
           jira-username: ${{ secrets.JIRA_USERNAME }}
           jira-token: ${{ secrets.JIRA_TOKEN }}
-          new-status: "Done" 
-          comment: "This issue has been closed by pull request ${{ github.event.pull_request.number }}"
+          # The Jira issue key will be automatically detected from the PR title or branch name.
+          # For example, a PR titled "FEAT-1234: Add new feature" will transition the issue "FEAT-1234".
+          new-status: "Done" # The name of the status to transition the issue to
+          comment: "This issue has been closed by pull request #${{ github.event.pull_request.number }}"
 
 Inputs
 Name
@@ -111,3 +112,9 @@ A comment to add to the Jira issue.
 
 Outputs
 This action does not produce any specific outputs that can be used in subsequent steps of a workflow.
+
+Contribution
+Contributions are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
+
+License
+This project is licensed under the MIT License.
