@@ -54,7 +54,6 @@ on:
 
 jobs:
   update-jira-issue:
-    # Only run this job if the pull request was merged
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
@@ -67,7 +66,7 @@ jobs:
           # The Jira issue key will be automatically detected from the PR title or branch name.
           # For example, a PR titled "FEAT-1234: Add new feature" will transition the issue "FEAT-1234".
           new-status: "Done" # The name of the status to transition the issue to
-          comment: "This issue has been closed by pull request #${{ github.event.pull_request.number }}"
+          comment: "This issue has been closed by pull request ${{ github.event.pull_request.number }}"
 
 Inputs
 Name
