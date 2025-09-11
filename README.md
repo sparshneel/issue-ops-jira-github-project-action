@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update Jira Issue
-        uses: your-github-username/your-repo-name@v1 # Replace with your repo details
+        uses: your-github-username/your-repo-name@v1 
         with:
           jira-url: ${{ secrets.JIRA_URL }}
           jira-username: ${{ secrets.JIRA_USERNAME }}
