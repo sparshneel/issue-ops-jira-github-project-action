@@ -19,12 +19,12 @@ exports.createIssue = async (issue,jiraClient) => {
         }
     }).catch(error => {
         console.log("Error creating the issue, project: " + issue.project + ", issue type: " + issue.type + ", issue key: " + issue.key)
-        return {
+        core.setFailed(JSON.stringify({
             message: "Error creating the issue",
             project: issue.project,
             issueType: issue.type,
             issueId: issue.key
-        }
+        }))
     })
 }
 

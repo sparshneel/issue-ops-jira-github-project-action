@@ -15,6 +15,9 @@ inputs:
     required: true
   JIRA_ISSUE:
     description: Jira Issue
+    required: false
+  JIRA_PROJECT:
+    description: Jira Project
     required: true
   JIRA_JSON_INPUT:
     description: Jira JSON Input
@@ -23,4 +26,4 @@ inputs:
 
 runs:
   using: 'node20'
-  main: index.js
+  main: ../../index.js
