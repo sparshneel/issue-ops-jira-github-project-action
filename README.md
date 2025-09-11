@@ -114,9 +114,3 @@ A comment to add to the Jira issue.
 
 Outputs
 This action does not produce any specific outputs that can be used in subsequent steps of a workflow.
-
-Contribution
-Contributions are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
-
-License
-This project is licensed under the MIT License.
