@@ -63,9 +63,7 @@ jobs:
           jira-url: ${{ secrets.JIRA_URL }}
           jira-username: ${{ secrets.JIRA_USERNAME }}
           jira-token: ${{ secrets.JIRA_TOKEN }}
-          # The Jira issue key will be automatically detected from the PR title or branch name.
-          # For example, a PR titled "FEAT-1234: Add new feature" will transition the issue "FEAT-1234".
-          new-status: "Done" # The name of the status to transition the issue to
+          new-status: "Done" 
           comment: "This issue has been closed by pull request ${{ github.event.pull_request.number }}"
 
 Inputs
