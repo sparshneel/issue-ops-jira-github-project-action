@@ -1,8 +1,7 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const {Version3Client} = require('jira.js')
-const {createIssue, updateIssue} = require('jira-issue')
-const {createSprint, updateSprint} = require('jira-sprint')
+import core  from '@actions/core';
+import  {Version3Client}  from 'jira.js'
+import {createIssue, updateIssue} from './jira-issue.js'
+import {createSprint, updateSprint}  from './jira-sprint.js'
 
 const jiraClient = new Version3Client({
     host: core.getInput('JIRA_HOST'),

@@ -1,4 +1,4 @@
-exports.createSprint = async (sprint, jiraClient) => {
+async function createSprint(sprint, jiraClient){
     jiraClient.sprint.createSprint(sprint).then(res => {
         console.log(res)
         return res
@@ -8,7 +8,7 @@ exports.createSprint = async (sprint, jiraClient) => {
     })
 }
 
-exports.updateSprint = async (sprint, jiraClient) => {
+async function updateSprint(sprint, jiraClient) {
     switch (sprint.operation) {
         case 'START':
             jiraClient.getSprint(sprint.id).then(res => {
@@ -143,7 +143,7 @@ exports.updateSprint = async (sprint, jiraClient) => {
     }
 }
 
-exports.getSprint = async (sprint, jiraClient) => {
+async function getSprint(sprint, jiraClient)  {
     jiraClient.sprint.getSprint(sprint).then(res => {
         console.log(res)
         return res
@@ -152,3 +152,5 @@ exports.getSprint = async (sprint, jiraClient) => {
         throw err
     })
 }
+
+export {createSprint, updateSprint, getSprint}

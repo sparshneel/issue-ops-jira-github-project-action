@@ -1,13 +1,12 @@
-const core = require('@actions/core');
+import  core  from '@actions/core';
 
-exports.createIssue = async (issue,jiraClient) => {
+async function createIssue  (issue,jiraClient)  {
     await jiraClient.issues.createIssue({
         key: issue.key,
         project: {
-            id: issue.project
+            id: core.getInput('JIRA_PROJECT')
         },
         issueType: issue.type,
-        id: issue.key,
         summary: issue.fields.summary,
     }).then(res => {
         console.log("Issues created successfully, project: " + issue.project + ", issue type: " + issue.type + ", issue key: " + issue.key)
@@ -28,7 +27,7 @@ exports.createIssue = async (issue,jiraClient) => {
     })
 }
 
-exports.updateIssue = async (issue,jiraClient) => {
+async function updateIssue (issue,jiraClient) {
     switch (issue.operation) {
         case 'ADD_PR_DETAILS':
             // add PR link to the issue
@@ -88,3 +87,5 @@ exports.updateIssue = async (issue,jiraClient) => {
             break;
     }
 }
+
+export {createIssue, updateIssue}
