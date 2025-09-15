@@ -1,3 +1,5 @@
+const core = require('@actions/core');
+
 async function createSprint(sprint, jiraClient){
     jiraClient.sprint.createSprint(sprint).then(res => {
         console.log(res)
@@ -51,29 +53,35 @@ async function updateSprint(sprint, jiraClient) {
         case 'CLOSE':
             // Get issues(status InProgress, To-Do) for sprint to be moved to backlog
             const issues = []
-            jiraClient.sprint.get(sprint.id).then(res => {
-                console.log(res)
-                jiraClient.sprint.getIssuesForSprint({
-                    sprintId: sprint.id, jql: "status IN ('In Progress', 'To Do')", validateQuery: true
-                }).then(res => {
-                    res.issues.forEach(issue => {
-                        issues.push(issue.id)
-                    })
-                }).catch(err => {
-                    console.log("error getting issues for sprint : " + sprint.id)
-                    return {
-                        message: "Error getting issues for sprint",
-                        sprintId: sprint.id,
-                        error: err.message
-                    }
-                })
+            jiraClient.board.getAllSprints({
+                boardId: sprint.boardId,
+                state: 'active'
+            }).then(res => {
+               res.values.forEach(sprint => {
+                   jiraClient.sprint.getIssuesForSprint({
+                       sprintId: sprint.id, jql: "status IN ('In Progress', 'To Do')", validateQuery: true
+                   }).then(res => {
+                       res.issues.forEach(issue => {
+                           issues.push(issue.id)
+                       })
+                   }).catch(err => {
+                       console.log("Error fetching issues for the sprint : " + sprint.id)
+                       core.setFailed(JSON.stringify({
+                           message: "Error fetching issues for the sprint",
+                           sprintId: sprint.id,
+                           error: err.message
+                       }))
+                   })
+               })
             }).catch(err => {
-                console.log("Sprint not found sprint id : " + sprint.id);
-                return {
-                    message: "Error fetching the sprint details, sprint not found",
-                    sprintId: sprint.id
-                }
+                console.log("Error fetching the active sprint for the board : " + sprint.boardId)
+                core.setFailed(JSON.stringify({
+                    message: "Error fetching the active sprint for the board",
+                    boardId: sprint.boardId,
+                    error: err.message
+                }))
             })
+
 
             // move issues to backlog
             jiraClient.backlog.moveIssuesToBacklog({

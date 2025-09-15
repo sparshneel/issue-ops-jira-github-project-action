@@ -23,5 +23,5 @@ jobs:
             JIRA_PROJECT: ${{ secrets.JIRA_PROJECT }}
             JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
             JIRA_ISSUE_OPERATION: 'CREATE_ISSUE'
-            JIRA_JSON_INPUT: '{"summary": "Security issue in the project dependencies PR no " + ${{ github.event.pull_request.number}}, "issue_type": "Bug", description": "Security issue in the project dependencies PR no " + ${{ github.event.pull_request.number }}, 
+            JIRA_JSON_INPUT: '{"summary": "Security issue in the project dependencies PR no " + ${{ github.event.pull_request.number}}, "issue_type": "Bug", description": "Security issue in the project dependencies PR no " + ${{ github.event.pull_request.number }} + ", repository: " + ${{ github.repository }}, 
             "issue_key": ${{secrets.ISSUE_KEY}},"project": ${{ secrets.JIRA_PROJECT }} }'

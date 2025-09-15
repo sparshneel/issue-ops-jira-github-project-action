@@ -2,27 +2,30 @@ import  core  from '@actions/core';
 
 async function createIssue  (issue,jiraClient)  {
     await jiraClient.issues.createIssue({
-        key: issue.key,
-        project: {
-            id: core.getInput('JIRA_PROJECT')
-        },
-        issueType: issue.type,
-        summary: issue.fields.summary,
+        fields:{
+            issuetype: {
+                name: issue.issue_type
+            },
+            summary: issue.summary,
+            description: issue.description,
+            project: {
+                key: issue.project
+            }
+        }
+
     }).then(res => {
-        console.log("Issues created successfully, project: " + issue.project + ", issue type: " + issue.type + ", issue key: " + issue.key)
+        console.log("Issues created successfully, project: " + issue.project + ", issue type: " + issue.issue_type)
         return {
             message: "Issues created successfully",
             project: issue.project,
-            issueType: issue.type,
-            issueId: issue.key
+            issueType: issue.issue_type
         }
     }).catch(error => {
-        console.log("Error creating the issue, project: " + issue.project + ", issue type: " + issue.type + ", issue key: " + issue.key)
+        console.log("Error creating the issue, project: " + issue.project + ", issue type: " + issue.issue_type)
         core.setFailed(JSON.stringify({
             message: "Error creating the issue",
             project: issue.project,
-            issueType: issue.type,
-            issueId: issue.key
+            issueType: issue.issue_type
         }))
     })
 }
@@ -33,7 +36,7 @@ async function updateIssue (issue,jiraClient) {
             // add PR link to the issue
             jiraClient.issueComments.addComment({
                 issueIdOrKey: issue.id,
-                comment: "PR link : " + issue.fields.pr.link
+                comment: "PR link : " + issue.pr.link
             }).then(res => {
                 console.log("PR link added to the issue, id: " + issue.id)
             }).catch(error => {
@@ -48,8 +51,8 @@ async function updateIssue (issue,jiraClient) {
             jiraClient.issues.editIssue({
                 id: issue.id,
                 fields: {
-                    prReviewers: issue.fields.pr.pr_reviewers,
-                    prReviewEnv: issue.fields.pr.pr_env
+                    prReviewers: issue.pr.pr_reviewers,
+                    prReviewEnv: issue.pr.pr_env
                 }
             }).then(res => {
                 console.log("PR reviewers and PR review env labels updated for the issue, id: " + issue.id)
@@ -64,7 +67,7 @@ async function updateIssue (issue,jiraClient) {
             jiraClient.issues.editIssue({
                 id: issue.id,
                 fields: {
-                    status: issue.fields.status
+                    status: issue.status
                 }
             }).then(res => {
                 console.log("Issue status updated for the issue, id: " + issue.id)
